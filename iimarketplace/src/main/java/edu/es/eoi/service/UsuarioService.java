@@ -17,5 +17,7 @@ public interface UsuarioService {
 	
 	UsuarioDto loggin(UsuarioDto dto);
 	
+	void delete(UsuarioDto dto);
+	
 	
 }

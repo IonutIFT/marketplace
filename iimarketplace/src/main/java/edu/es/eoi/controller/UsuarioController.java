@@ -3,22 +3,24 @@ package edu.es.eoi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.es.eoi.dto.PedidoDto;
 import edu.es.eoi.dto.UsuarioDto;
 import edu.es.eoi.service.UsuarioService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/marketplace/usuarios")
 public class UsuarioController {
 
 	@Autowired
 	private UsuarioService service;
-	
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> findAll(){
@@ -70,6 +72,18 @@ public class UsuarioController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
 		return new ResponseEntity<UsuarioDto>(service.update(user, id) ,HttpStatus.ACCEPTED);
+		}
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteUsuario(@PathVariable Integer id) {
+		UsuarioDto usuario = service.findById(id);
+		
+		if(service.findById(id) != null) {
+			service.delete(usuario);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 

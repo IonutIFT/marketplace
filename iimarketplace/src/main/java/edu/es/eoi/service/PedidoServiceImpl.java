@@ -14,6 +14,7 @@ import edu.es.eoi.entity.Cesta;
 import edu.es.eoi.entity.Pedido;
 import edu.es.eoi.repository.ArticuloRepository;
 import edu.es.eoi.repository.PedidoRepository;
+import edu.es.eoi.repository.UsuarioRepository;
 
 @Service
 public class PedidoServiceImpl implements PedidoService{
@@ -23,6 +24,9 @@ public class PedidoServiceImpl implements PedidoService{
 	
 	@Autowired
 	ArticuloRepository articleRepo;
+	
+	@Autowired
+	UsuarioRepository userRepo;
 
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	
@@ -60,6 +64,7 @@ public class PedidoServiceImpl implements PedidoService{
 			dto.setId(pedido.getId());
 			dto.setFecha(pedido.getFecha().format(formatter));
 			dto.setName(pedido.getName());
+			dto.setUserId(Integer.toString(pedido.getUser().getId()));
 			for(Cesta article : cesta) {
 				CestaDto dtoTmp = new CestaDto();
 				dtoTmp.setId(article.getId());
@@ -72,10 +77,10 @@ public class PedidoServiceImpl implements PedidoService{
 		return dtos;
 	}
 	
-	public PedidoDto create(PedidoDto dto) {
+	public Pedido create(PedidoDto dto) {
 		
-		orderRepo.save(convertToEntity(dto));
-		return dto;
+		return orderRepo.save(convertToEntity(dto));
+//		return dto;
 		
 	}
 	
@@ -124,6 +129,7 @@ public class PedidoServiceImpl implements PedidoService{
 		
 		dto.setId(entity.getId());
 		dto.setName(entity.getName());
+		dto.setUserId(Integer.toString(entity.getUser().getId()));
 		if(entity.getFecha() != null) {
 //		dto.setFecha(entity.getFecha().format(formatter));
 		dto.setFecha(formatter.format(entity.getFecha()));
@@ -148,9 +154,16 @@ public class PedidoServiceImpl implements PedidoService{
 		Pedido entity = new Pedido();
 		List<CestaDto> cestaDto = dto.getCesta();
 		List<Cesta> cesta = new ArrayList<>();
+		//Pedido entity = orderRepo.findById(id).get();
+		//PedidoDto dto = convertToDto(entity);
+		
 		
 		entity.setId(dto.getId());
 		entity.setName(dto.getName());
+		//dto.setUserId(Integer.toString(entity.getId()));
+		//entity.setUser(orderRepo.findById(dto.getId()).get());
+//		dto.setUserId(Integer.toString(entity.getUser().getId()));
+		entity.setUser(userRepo.findById(Integer.parseInt(dto.getUserId())).get());;
 		if(dto.getFecha() != null) {
 //		dto.setFecha(entity.getFecha().format(formatter));
 		entity.setFecha(LocalDate.parse(dto.getFecha(), formatter));

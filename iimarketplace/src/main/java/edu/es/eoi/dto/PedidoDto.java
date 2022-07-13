@@ -20,5 +20,8 @@ public class PedidoDto {
 	
 	@JsonProperty(value = "articulos")
 	private List<CestaDto> cesta;
+	
+	@JsonProperty(value = "user_id_usuario")
+	private String userId;
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.es.eoi.dto.PedidoDto;
 import edu.es.eoi.dto.UsuarioDto;
 import edu.es.eoi.entity.Usuario;
 import edu.es.eoi.repository.UsuarioRepository;
@@ -59,6 +60,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 			return null;
 		}
 
+	}
+	
+	public void delete(UsuarioDto dto) {
+		
+		userRepo.deleteById(dto.getId());
+		
 	}
 
 	private UsuarioDto convertToDto(Usuario entity) {

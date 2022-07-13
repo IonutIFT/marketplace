@@ -14,7 +14,7 @@ public class UsuarioDto {
 	@JsonProperty(value = "nombre")
 	private String name;
 	
-	@JsonProperty(value = "contraseña")
+	@JsonProperty(value = "password")
 	private String password;
 	
 }

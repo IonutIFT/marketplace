@@ -123,6 +123,9 @@ class IimarketplaceApplicationTests {
 		test3.setFecha(LocalDate.of(2022, 2, 2));
 		orderRepo.save(test3);
 		
+		test3.setUser(userRepo.findById(1).get());
+		System.out.println(test3.getUser().getPassword());
+				
 		Assertions.assertEquals(LocalDate.of(2022, 2, 2), orderRepo.findById(test3.getId()).get().getFecha());
 		
 		orderRepo.deleteById(test3.getId());

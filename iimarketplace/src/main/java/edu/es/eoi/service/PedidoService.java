@@ -11,7 +11,7 @@ public interface PedidoService {
 	
 	List<PedidoDto> findAll();
 	
-	PedidoDto create(PedidoDto dto);
+	Pedido create(PedidoDto dto);
 	
 	void delete(PedidoDto dto);
 	

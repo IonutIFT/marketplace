@@ -5,16 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.es.eoi.dto.ArticuloDto;
 import edu.es.eoi.dto.PedidoDto;
 import edu.es.eoi.service.PedidoService;
 
+
+@CrossOrigin
 @RestController
 @RequestMapping("/marketplace/pedidos")
 public class PedidoController {
@@ -73,7 +75,7 @@ public class PedidoController {
 		if(order.getId() != id) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-		return new ResponseEntity<PedidoDto>(service.update(order, id),HttpStatus.ACCEPTED);
+			return new ResponseEntity<PedidoDto>(service.update(order, id),HttpStatus.ACCEPTED);
 		}
 	}
 	

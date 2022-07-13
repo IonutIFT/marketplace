@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,18 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.es.eoi.dto.ArticuloDto;
 import edu.es.eoi.dto.PedidoDto;
+import edu.es.eoi.dto.UsuarioDto;
 import edu.es.eoi.entity.Articulo;
 import edu.es.eoi.repository.ArticuloRepository;
 import edu.es.eoi.service.ArticuloService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/marketplace/articulos")
 public class ArticuloController {
 
+	
 	@Autowired
 	private ArticuloService service;
 
-	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> findAll(){
 		
@@ -78,6 +81,18 @@ public class ArticuloController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
 		return new ResponseEntity<ArticuloDto>(service.update(article, id),HttpStatus.ACCEPTED);
+		}
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteArticulo(@PathVariable Integer id) {
+		ArticuloDto articulo = service.findById(id);
+		
+		if(service.findById(id) != null) {
+			service.delete(articulo);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
